@@ -12,7 +12,7 @@ _config = configparser.ConfigParser()
 #reading config file
 _config.read('app.config')
 
-# banks = [131,132,133,134,135,136,137,138,139,140,141,142,144,145,171,238,255,341,348,357,359,397,517,532,562,605]
+
 #add from app.config
 banks_str = _config.get("DEFAULT",'banks')
 banks = banks_str.split(",")
