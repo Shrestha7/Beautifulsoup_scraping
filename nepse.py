@@ -4,9 +4,19 @@ from selenium import webdriver
 import time
 from selenium.webdriver.chrome.options import Options
 import pandas as pd
+import configparser
+
+# parsering configfile
+_config = configparser.ConfigParser()
+
+#reading config file
+_config.read('app.config')
 
 # banks = [131,132,133,134,135,136,137,138,139,140,141,142,144,145,171,238,255,341,348,357,359,397,517,532,562,605]
-banks = [131,132]
+#add from app.config
+banks_str = _config.get("DEFAULT",'banks')
+banks = banks_str.split(",")
+
 data_list = list()
 for bankid in banks:
 
