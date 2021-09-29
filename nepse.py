@@ -3,9 +3,11 @@ from bs4 import BeautifulSoup
 from selenium import webdriver
 import time
 from selenium.webdriver.chrome.options import Options
+import pandas as pd
 
-banks = [143,131,132,133,134,135,136,137,138,139,140,141,142,144,145,171,238,255,341,348,357,359,397,517,532,562,605]
-
+# banks = [131,132,133,134,135,136,137,138,139,140,141,142,144,145,171,238,255,341,348,357,359,397,517,532,562,605]
+banks = [131,132]
+data_list = list()
 for bankid in banks:
 
     URL = "https://newweb.nepalstock.com/company/detail/" + str(bankid)
@@ -38,6 +40,16 @@ for bankid in banks:
                 break
             index = index + 1
 
+# ltp,change price , change %
         if len(ltp_data) > 0:
+            data_list.append(ltp_data)
             print(bankid,float(ltp_data[0].replace(",","")), float(ltp_data[1].replace(",","")), float(ltp_data[2].replace("(","").replace(")","").replace("%","")))
             
+
+# Create Pandas Dataframe and print it
+df_bs = pd.DataFrame(data_list,columns=['Last Traded Price', 'Change Price', 'Change Percentage'])
+df_bs.set_index('Last Traded Price',inplace=True)
+print(df_bs.head())
+
+# Exporting the data into csv
+df_bs.to_csv('beautifulsoup.csv')
