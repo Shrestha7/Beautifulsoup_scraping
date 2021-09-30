@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 from selenium import webdriver
 import time 
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.edge.options import Options
 import pandas as pd
 import configparser
 from datetime import datetime
@@ -26,9 +27,13 @@ def main():
         URL = "https://newweb.nepalstock.com/company/detail/" + str(bankid)
 
         # to hide browser
-        options = Options()
-        options.add_argument("--headless")
-        driver = webdriver.Chrome('./chromedriver', options=options)
+        if webdriver.Chrome != None:
+            options = Options()
+            options.add_argument("--headless")
+        
+            driver = webdriver.Chrome('./chromedriver', options=options)
+        else:
+            driver = webdriver.Edge('./msedgedriver.exe', options=options)
         html = Any
         # if bank not exist
         try:
