@@ -7,6 +7,7 @@ from selenium.webdriver.edge.options import Options
 import pandas as pd
 import configparser
 from datetime import datetime
+import pyodbc
 
 # parsering configfile
 _config = configparser.ConfigParser()
@@ -19,6 +20,22 @@ _config.read('app.config')
 banks_str = _config.get("DEFAULT", 'banks')
 banks = banks_str.split(",")
 
+browser = _config.get("BROWSER","name")
+
+#FOR NEPSEDATABASE
+_config.read('NEPSEDATA.config')
+server = _config.get("NEPSEDATA","server")
+database = _config.get("NEPSEDATA","database")
+username = _config.get("NEPSEDATA","username")
+password = _config.get("NEPSEDATA","password")
+
+#CONNECT_WITH_NEPSEDATA
+conn = pyodbc.connect('Driver={SQL Server};'
+                      'Server=server;'
+                      'Database=database;'
+                      'Password=password;'
+                      'Trusted_Connection=yes;')
+
 data_list = list()
 
 def main():
@@ -26,14 +43,10 @@ def main():
 
         URL = "https://newweb.nepalstock.com/company/detail/" + str(bankid)
 
-        # to hide browser
-        if webdriver.Chrome != None:
-            options = Options()
-            options.add_argument("--headless")
-        
-            driver = webdriver.Chrome('./chromedriver', options=options)
-        else:
-            driver = webdriver.Edge('./msedgedriver.exe', options=options)
+        options = Options()
+        options.headless = True
+        driver = webdriver.Chrome(browser)
+
         html = Any
         # if bank not exist
         try:
