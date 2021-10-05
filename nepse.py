@@ -24,7 +24,7 @@ data_list = list()
 def main():
     for bankid in banks:
 
-        URL = "https://newweb.nepalstock.com/company/detail/" + str(bankid)
+        URL = "https://www.nepalstock.com.np/company/detail/" + str(bankid)
 
         # to hide browser
         options = Options()
@@ -84,7 +84,7 @@ def parser(rows, bankname):
         index = index + 1
 
     # ltp,change price , change %
-    if len(ltp_data) > 0:
+    if len(ltp_data) > 0 and len(ltp_data[0]) > 0:
         data_list.append(ltp_data)
 
 
