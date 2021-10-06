@@ -39,7 +39,7 @@ def main():
             print("Bank not found. Bank ID: " + str(bankid))
             continue
 
-        time.sleep(5)
+        time.sleep(15)
 
         soup = BeautifulSoup(html, "html.parser")
         parsed_table = soup.find_all('table')
