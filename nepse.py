@@ -115,7 +115,7 @@ def export(data_list):
     print(df_bs.head())
 
     # Exporting the data into csv
-    df_bs.to_csv('beautifulsoup-' +
+    df_bs.to_csv('nepse-' +
                  datetime.now().strftime("%d-%m-%Y %H-%M-%S") + '.csv')
 
 
