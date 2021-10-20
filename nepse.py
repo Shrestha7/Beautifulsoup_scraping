@@ -31,6 +31,7 @@ def main():
         options.add_argument("--headless")
         driver = webdriver.Chrome('./chromedriver', options=options)
         html = Any
+        time.sleep(15)
         # if bank not exist
         try:
             driver.get(URL)
