@@ -6,6 +6,8 @@ from selenium.webdriver.chrome.options import Options
 import pandas as pd
 import configparser
 from datetime import datetime
+import schedule
+
 
 # parsering configfile
 _config = configparser.ConfigParser()
@@ -17,6 +19,8 @@ _config.read('app.config')
 # add from app.config
 banks_str = _config.get("DEFAULT", 'banks')
 banks = banks_str.split(",")
+
+update = _config.get("TIMER",'update')
 
 data_list = list()
 
@@ -116,9 +120,16 @@ def export(data_list):
     print(df_bs.head())
 
     # Exporting the data into csv
-    df_bs.to_csv('nepse-' +
-                 datetime.now().strftime("%d-%m-%Y %H-%M-%S") + '.csv')
+    # df_bs.to_csv('nepse-' +
+    #              datetime.now().strftime("%d-%m-%Y %H-%M-%S") + '.csv')
+    df_bs.to_csv('nepse.csv')
 
+# To auto update
+    schedule.every().seconds.do(main)
+
+    while True:
+        schedule.run_pending()
+        time.sleep(int(update))
 
 if __name__ == '__main__':
     main()
