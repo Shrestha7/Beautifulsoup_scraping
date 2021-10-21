@@ -1,13 +1,13 @@
-from typing import Any, cast
+import configparser
+import time
+# from datetime import datetime
+from typing import Any
+
+import pandas as pd
+import schedule
 from bs4 import BeautifulSoup
 from selenium import webdriver
-import time
 from selenium.webdriver.chrome.options import Options
-import pandas as pd
-import configparser
-from datetime import datetime
-import schedule
-
 
 # parsering configfile
 _config = configparser.ConfigParser()
@@ -20,7 +20,7 @@ _config.read('app.config')
 banks_str = _config.get("DEFAULT", 'banks')
 banks = banks_str.split(",")
 
-update = _config.get("TIMER",'update')
+update = _config.get("TIMER", 'update')
 
 data_list = list()
 
@@ -130,6 +130,7 @@ def export(data_list):
     while True:
         schedule.run_pending()
         time.sleep(int(update))
+
 
 if __name__ == '__main__':
     main()
