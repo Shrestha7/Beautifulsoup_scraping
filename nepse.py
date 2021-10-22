@@ -1,5 +1,6 @@
 import configparser
 import time
+
 # from datetime import datetime
 from typing import Any
 
@@ -13,14 +14,14 @@ from selenium.webdriver.chrome.options import Options
 _config = configparser.ConfigParser()
 
 # reading config file
-_config.read('app.config')
+_config.read("app.config")
 
 
 # add from app.config
-banks_str = _config.get("DEFAULT", 'banks')
+banks_str = _config.get("DEFAULT", "banks")
 banks = banks_str.split(",")
 
-update = _config.get("TIMER", 'update')
+update = _config.get("TIMER", "update")
 
 data_list = list()
 
@@ -33,7 +34,7 @@ def main():
         # to hide browser
         options = Options()
         options.add_argument("--headless")
-        driver = webdriver.Chrome('./chromedriver', options=options)
+        driver = webdriver.Chrome("./chromedriver", options=options)
         html = Any
         time.sleep(15)
         # if bank not exist
@@ -47,14 +48,13 @@ def main():
         time.sleep(15)
 
         soup = BeautifulSoup(html, "html.parser")
-        parsed_table = soup.find_all('table')
+        parsed_table = soup.find_all("table")
         table = any
 
-        if(len(parsed_table) > 0):
+        if len(parsed_table) > 0:
             table = parsed_table[0]
-            rows = table.find_all('tr')
-            bankname = soup.find(
-                class_="company__title--details").find("h1").text
+            rows = table.find_all("tr")
+            bankname = soup.find(class_="company__title--details").find("h1").text
             parser(rows=rows, bankname=bankname)
 
     export(data_list=data_list)
@@ -96,35 +96,38 @@ def parser(rows, bankname):
 def export(data_list):
 
     # Create Pandas Dataframe and print it
-    df_bs = pd.DataFrame(data_list, columns=[
-        'Bank Name',
-        'As of',
-        'Instrument Type',
-        'Listing Date',
-        'Last Traded Price',
-        'Change Price',
-        'Change Percentage',
-        'Total Traded Quantity',
-        'Total Trades',
-        'Previous Day Close Price',
-        'High Price / Low Price',
-        '52 Week High / 52 Week Low',
-        'Open Price',
-        'Close Price*',
-        'Total Listed Shares',
-        'Total Paid up Value',
-        'Market Capitalization',
-        'Notes'
-    ])
-    df_bs.set_index('Bank Name', inplace=True)
+    df_bs = pd.DataFrame(
+        data_list,
+        columns=[
+            "Bank Name",
+            "As of",
+            "Instrument Type",
+            "Listing Date",
+            "Last Traded Price",
+            "Change Price",
+            "Change Percentage",
+            "Total Traded Quantity",
+            "Total Trades",
+            "Previous Day Close Price",
+            "High Price / Low Price",
+            "52 Week High / 52 Week Low",
+            "Open Price",
+            "Close Price*",
+            "Total Listed Shares",
+            "Total Paid up Value",
+            "Market Capitalization",
+            "Notes",
+        ],
+    )
+    df_bs.set_index("Bank Name", inplace=True)
     print(df_bs.head())
 
     # Exporting the data into csv
     # df_bs.to_csv('nepse-' +
     #              datetime.now().strftime("%d-%m-%Y %H-%M-%S") + '.csv')
-    df_bs.to_csv('nepse.csv')
+    df_bs.to_csv("nepse.csv")
 
-# To auto update
+    # To auto update
     schedule.every().seconds.do(main)
 
     while True:
@@ -132,5 +135,5 @@ def export(data_list):
         time.sleep(int(update))
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
