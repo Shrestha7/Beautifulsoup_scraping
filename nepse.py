@@ -79,7 +79,7 @@ def parser(rows, bankname):
     index = 0
     ltp_data.append(bankname)
     for tr in rows:
-        if index == 3 or index == 0:
+        if index == 3 or index == 0: 
             for span in tr.find_all("span"):
                 ltp_data.append(span.text.strip())
         else:
@@ -133,7 +133,7 @@ def export(data_list):
     while True:
         schedule.run_pending()
         time.sleep(int(update))
-
+    
 
 if __name__ == "__main__":
     main()
