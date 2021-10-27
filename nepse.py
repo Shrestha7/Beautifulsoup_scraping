@@ -27,6 +27,9 @@ data_list = list()
 
 
 def main():
+    global data_list
+    data_list = list()
+    print('main()')
     for bankid in banks:
 
         URL = "https://www.nepalstock.com.np/company/detail/" + str(bankid)
@@ -56,7 +59,7 @@ def main():
             rows = table.find_all("tr")
             bankname = soup.find(class_="company__title--details").find("h1").text
             parser(rows=rows, bankname=bankname)
-
+        print(data_list)    
     export(data_list=data_list)
     #         ltp_data = []
     #         index = 0
