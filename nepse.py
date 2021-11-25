@@ -29,7 +29,7 @@ data_list = list()
 def main():
     global data_list
     data_list = list()
-    print('main()')
+    # print('main()')
     for bankid in banks:
 
         URL = "https://www.nepalstock.com.np/company/detail/" + str(bankid)
@@ -95,7 +95,9 @@ def parser(rows, bankname):
     if len(ltp_data) > 0 and len(ltp_data[0]) > 0:
         data_list.append(ltp_data)
 
-
+# def _color_red_or_green(data_list):
+#     color = 'red' if data_list < 0 else 'green'
+#     return 'color: %s' % color
 def export(data_list):
 
     # Create Pandas Dataframe and print it
@@ -124,6 +126,8 @@ def export(data_list):
     )
     df_bs.set_index("Bank Name", inplace=True)
     print(df_bs.head())
+    # df_bs = 'red' if data_list < 0 else 'green'
+    # print ('df_bs: %s' % df_bs)
 
     # Exporting the data into csv
     # df_bs.to_csv('nepse-' +
