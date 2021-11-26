@@ -126,13 +126,15 @@ def export(data_list):
     )
     df_bs.set_index("Bank Name", inplace=True)
     print(df_bs.head())
+    df_bs.style.apply(lambda x: [x.set_color("red") if x < 0 else x.set_color("green") for x in x],
+                      axis=1).to_csv("nepse.csv")
     # df_bs = 'red' if data_list < 0 else 'green'
     # print ('df_bs: %s' % df_bs)
 
     # Exporting the data into csv
     # df_bs.to_csv('nepse-' +
     #              datetime.now().strftime("%d-%m-%Y %H-%M-%S") + '.csv')
-    df_bs.to_csv("nepse.csv")
+    # df_bs.to_csv("nepse.csv")
 
     # To auto update
     schedule.every().seconds.do(main)
